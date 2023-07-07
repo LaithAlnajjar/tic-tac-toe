@@ -26,6 +26,8 @@ function gameController() {
 
     const player1 = Player("first", 1);
     const player2 = Player("second", 2);
+    const board = gameBoard();
+    const actualBoard = board.getBoard();
 
     let activePlayer = player1;
 
@@ -33,28 +35,45 @@ function gameController() {
         activePlayer = activePlayer === player1 ? player2 : player1;
     };
 
-    const addSymbol = () => {
-        gameBoard.changeCell(row, column, activePlayer);
+    const addSymbol = (row, column) => {
+        board.changeCell(row, column, activePlayer.symbol);
+
+        if(actualBoard[0][0] == 1 && actualBoard[0][1] == 1 && actualBoard[0][2] == 1)  {
+            return true;
+        }
+
+
+        switchTurn();
+    }
+
+    const getActivePlayer = () => activePlayer;
+
+    return {
+        addSymbol,
+        getActivePlayer,
+        getBoard : board.getBoard
     }
 
 };
 
 function screenController() {
     
-    const container = document.querySelector(".container");
-    const board = gameBoard.getBoard()
-
+    const container = document.querySelector(".board-container");
+    const game = gameController();
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
 
     const displayBoard = () => {
 
         container.textContent = "";
 
-        board[row].forEach(row => {
-            row.forEach(element => {
+        board.forEach((row, i) => {
+            row.forEach((element, j) => {
 
                 const cell = document.createElement("div");
                 cell.classList.add("cell");
-
+                cell.dataset.column = j;
+                cell.dataset.row = i;
                 if(element == 0) {
                     cell.textContent = "";
                 } else if ( element == 1){
@@ -62,14 +81,25 @@ function screenController() {
                 } else {
                     cell.textContent = "O";
                 }
-
                 container.append(cell);
 
+            });
+        });
+        console.log(board);
+        const cells = document.querySelectorAll(".cell");
+
+        cells.forEach(cellDiv => {
+            cellDiv.addEventListener("click", (e) => {
+                const row = cellDiv.dataset.row;
+                const column = cellDiv.dataset.column;
+                gameState = game.addSymbol(row, column);
+                displayBoard();
             })
-        })
+        });
+    }   
 
-    }
-
+    displayBoard();
 
 };
 
+screenController();
