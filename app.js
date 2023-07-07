@@ -162,10 +162,11 @@ function gameController() {
 
 const screenController = (() =>{
     
+    const messageBox = document.querySelector(".message");
     const container = document.querySelector(".board-container");
     const game = gameController();
     const board = game.getBoard();
-    const activePlayer = game.getActivePlayer();
+    let activePlayer = game.getActivePlayer();
 
     const displayBoard = () => {
 
@@ -193,6 +194,7 @@ const screenController = (() =>{
 
         cells.forEach(cellDiv => {
             cellDiv.addEventListener("click", (e) => {
+                messageBox.textContent = "New Round!";
                 const row = cellDiv.dataset.row;
                 const column = cellDiv.dataset.column;
                 let gameState = game.addSymbol(row, column);
@@ -201,6 +203,7 @@ const screenController = (() =>{
                     updateScore(game.getPlayerScores()[0], game.getPlayerScores()[1]);
                     console.log("win");
                 } else if (gameState =="draw"){
+                    messageBox.textContent = "It's a tie!";
                     displayFinalBoard();
                     console.log("draw");
                 } else {
@@ -242,7 +245,7 @@ const secondNameInput = document.querySelector("#player2Name");
 const restartButton = document.querySelector(".restart-button");
 const firstScore = document.querySelector(".score1");
 const secondScore = document.querySelector(".score2");
-const messageBox = document.querySelector(".message");
+
 
 startButton.addEventListener("click", (e) => {
 
@@ -259,6 +262,7 @@ startButton.addEventListener("click", (e) => {
 });
 
 const updateScore = (score1,score2) => {
+    activePlayer = game.getActivePlayer();
     firstScore.textContent = score1;
     secondScore.textContent =score2;
     messageBox.textContent = activePlayer.name + " has won the round!";
