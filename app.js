@@ -44,6 +44,19 @@ function gameController() {
     const player1 = Player("first", 1);
     const player2 = Player("second", 2);
 
+    function changePlayerName(name1, name2) {
+        player1.name = name1;
+        player2.name = name2;
+
+        const firstNameBox = document.querySelector(".first1");
+        const secondNameBox = document.querySelector(".second2");
+        
+        console.log(firstNameBox);
+
+        firstNameBox.textContent = player1.name;
+        secondNameBox.textContent = player2.name;
+    }
+
     const board = gameBoard();
     const actualBoard = board.getBoard();
     let counter = 0;
@@ -60,7 +73,8 @@ function gameController() {
         counter++
         board.changeCell(row, column, activePlayer.symbol);
         if(checkWin() === "win") {
-            incrementScore(activePlayer);
+            activePlayer.incrementScore();
+            console.log(activePlayer.score);
             return "win";
         }
 
@@ -113,7 +127,8 @@ function gameController() {
     return {
         addSymbol,
         getActivePlayer,
-        getBoard : board.getBoard
+        getBoard : board.getBoard,
+        changePlayerName
     }
 
 };
@@ -192,8 +207,23 @@ const displayFinalBoard = () => {
 
 const startButton = document.querySelector(".start-game");
 const startMenuContainer = document.querySelector(".start-menu");
+const firstNameForm = document.querySelector(".one");
+const secondNameForm = document.querySelector(".two");
+const firstNameInput = document.querySelector("#player1Name");
+const secondNameInput = document.querySelector("#player2Name");
+
 startButton.addEventListener("click", (e) => {
+
+    if(firstNameForm.checkValidity() == false || secondNameForm.checkValidity() == false) {
+        firstNameForm.reportValidity();
+        secondNameForm.reportValidity();
+        return;
+    }
+
     startMenuContainer.style.display = "none";
+    game.changePlayerName(firstNameInput.value, secondNameInput.value);
+
+
 });
 
 

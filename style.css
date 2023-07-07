@@ -78,14 +78,16 @@ select {
 body {
     display: grid;
     place-content: center;
+    background-color: #e8e8e4;
+    font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .board-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    height: 40vw;
-    width: 50vw;
+    height: 500px;
+    width: 500px;
     background-color: antiquewhite;
 }
 
@@ -103,6 +105,7 @@ body {
 .start-menu {
   display: grid;
   place-content: center;
+  gap: 50px;
   overflow: hidden;
   position: absolute;
   height: 100%;
@@ -120,9 +123,58 @@ body {
   font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
   font-size: 3rem;
   font-weight: 800;
+  margin: auto;
 }
 
 .start-game:hover {
   cursor: pointer;
   filter: brightness(95%);
+}
+
+.players {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 2rem;
+  color: #FEC5BB;
+  -webkit-text-stroke: 0.7px rgb(0, 0, 0);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  height: 50px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 70px;
+}
+
+.player-info {
+  display: flex;
+  gap: 300px;
+
+}
+
+.player-box {
+
+  width: 300px;
+  height: 200px;
+  background-color: #FEC5BB;
+  border:8px solid white;
+  padding: 30px;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+
 }
