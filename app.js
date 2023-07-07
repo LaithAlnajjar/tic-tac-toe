@@ -23,8 +23,15 @@ function gameBoard() {
         }
     }
 
+    const clearBoard = () => {
+        for(let i = 0; i < 3; i++) {
+            board[i] = [];
+            for(let j = 0; j < 3; j++)
+                board[i][j] = 0;
+        };
+    }
 
-    return {getBoard, changeCell, checkCellEmpty}
+    return {getBoard, changeCell, checkCellEmpty, clearBoard}
 
 };
 
@@ -57,6 +64,15 @@ function gameController() {
         secondNameBox.textContent = player2.name;
     }
 
+    function getPlayerScores() {
+        return [player1.score, player2.score]
+    };
+
+    const startNewGame = () => {
+        counter = 0;
+        board.clearBoard();
+    }
+
     const board = gameBoard();
     const actualBoard = board.getBoard();
     let counter = 0;
@@ -73,7 +89,7 @@ function gameController() {
         counter++
         board.changeCell(row, column, activePlayer.symbol);
         if(checkWin() === "win") {
-            activePlayer.incrementScore();
+            activePlayer.score++;
             console.log(activePlayer.score);
             return "win";
         }
@@ -122,13 +138,24 @@ function gameController() {
         if(actualBoard[0][2] == 1 && actualBoard[1][1] == 1 && actualBoard[2][0] == 1) {
             return "win";
         }
+
+        if(actualBoard[1][1] == 2 && actualBoard[2][2] == 2 && actualBoard[0][0] == 2) {
+            return "win";
+        }
+        
+
+        if(actualBoard[0][2] == 2 && actualBoard[1][1] == 2 && actualBoard[2][0] == 2) {
+            return "win";
+        }
     }
 
     return {
         addSymbol,
         getActivePlayer,
         getBoard : board.getBoard,
-        changePlayerName
+        changePlayerName,
+        startNewGame,
+        getPlayerScores
     }
 
 };
@@ -171,6 +198,7 @@ const screenController = (() =>{
                 let gameState = game.addSymbol(row, column);
                 if(gameState == "win") {
                     displayFinalBoard();
+                    updateScore(game.getPlayerScores()[0], game.getPlayerScores()[1]);
                     console.log("win");
                 } else if (gameState =="draw"){
                     displayFinalBoard();
@@ -211,6 +239,10 @@ const firstNameForm = document.querySelector(".one");
 const secondNameForm = document.querySelector(".two");
 const firstNameInput = document.querySelector("#player1Name");
 const secondNameInput = document.querySelector("#player2Name");
+const restartButton = document.querySelector(".restart-button");
+const firstScore = document.querySelector(".score1");
+const secondScore = document.querySelector(".score2");
+
 
 startButton.addEventListener("click", (e) => {
 
@@ -226,6 +258,17 @@ startButton.addEventListener("click", (e) => {
 
 });
 
+const updateScore = (score1,score2) => {
+    firstScore.textContent = score1;
+    secondScore.textContent =score2;
+}
+
+
+
+restartButton.addEventListener("click", (e)=> {
+    game.startNewGame();
+    displayBoard();
+})
 
     displayBoard();
 

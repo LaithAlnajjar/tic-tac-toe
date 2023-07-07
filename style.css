@@ -88,13 +88,14 @@ body {
     grid-template-rows: 1fr 1fr 1fr;
     height: 500px;
     width: 500px;
-    background-color: antiquewhite;
+    background-color: #FEC89A;
+    color: white;
 }
 
 .cell {
   display: grid;
   place-content: center;
-  border: 2px solid black;
+  border: 2px dotted rgb(248, 248, 248);
   font-size: 3rem;
 }
 
