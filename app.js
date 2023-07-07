@@ -48,8 +48,8 @@ function Player(name, symbol) {
 
 function gameController() {
 
-    const player1 = Player("first", 1);
-    const player2 = Player("second", 2);
+    const player1 = Player("Player 1", 1);
+    const player2 = Player("Player 2", 2);
 
     function changePlayerName(name1, name2) {
         player1.name = name1;
@@ -242,7 +242,7 @@ const secondNameInput = document.querySelector("#player2Name");
 const restartButton = document.querySelector(".restart-button");
 const firstScore = document.querySelector(".score1");
 const secondScore = document.querySelector(".score2");
-
+const messageBox = document.querySelector(".message");
 
 startButton.addEventListener("click", (e) => {
 
@@ -261,6 +261,7 @@ startButton.addEventListener("click", (e) => {
 const updateScore = (score1,score2) => {
     firstScore.textContent = score1;
     secondScore.textContent =score2;
+    messageBox.textContent = activePlayer.name + " has won the round!";
 }
 
 

@@ -163,8 +163,7 @@ input {
 
 .player-info {
   display: flex;
-  gap: 300px;
-
+  gap: 20px;
 }
 
 .player-box {
@@ -178,4 +177,23 @@ input {
   font-size: 2rem;
   color: white;
 
+}
+
+.restart-button {
+  border: 2px solid white;
+  border-radius: 20px;
+  background-color: #FEC5BB;
+  color: white;
+  width: 100px;
+  height: 50px;
+}
+
+.restart-button:hover {
+  cursor: pointer;
+  filter: brightness(90%);
+}
+
+.message {
+  display: grid;
+  place-content: center;
 }
