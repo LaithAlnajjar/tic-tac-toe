@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&family=Ysabeau+SC:wght@200;400;600;800;1000&display=swap');
 /* Box sizing rules */
 *,
 *::before,
@@ -83,7 +84,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    height: 50vw;
+    height: 40vw;
     width: 50vw;
     background-color: antiquewhite;
 }
@@ -95,3 +96,33 @@ body {
   font-size: 3rem;
 }
 
+.cell:hover {
+  cursor: pointer;
+}
+
+.start-menu {
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: #e8e8e4;
+}
+
+.start-game {
+  width: 400px;
+  height: 145px;
+  background-color: #FEC5BB;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.start-game:hover {
+  cursor: pointer;
+  filter: brightness(95%);
+}

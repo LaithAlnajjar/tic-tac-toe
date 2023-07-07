@@ -29,13 +29,21 @@ function gameBoard() {
 };
 
 function Player(name, symbol) {
-    return {name, symbol};
+
+    let score = 0;
+
+    const incrementScore = ()=> {
+        this.score++;
+    }
+
+    return {name, symbol, incrementScore, score};
 }
 
 function gameController() {
 
     const player1 = Player("first", 1);
     const player2 = Player("second", 2);
+
     const board = gameBoard();
     const actualBoard = board.getBoard();
     let counter = 0;
@@ -52,6 +60,7 @@ function gameController() {
         counter++
         board.changeCell(row, column, activePlayer.symbol);
         if(checkWin() === "win") {
+            incrementScore(activePlayer);
             return "win";
         }
 
@@ -138,7 +147,6 @@ const screenController = (() =>{
 
             });
         });
-        console.log(board);
         const cells = document.querySelectorAll(".cell");
 
         cells.forEach(cellDiv => {
@@ -182,6 +190,11 @@ const displayFinalBoard = () => {
         });
 }
 
+const startButton = document.querySelector(".start-game");
+const startMenuContainer = document.querySelector(".start-menu");
+startButton.addEventListener("click", (e) => {
+    startMenuContainer.style.display = "none";
+});
 
 
     displayBoard();
