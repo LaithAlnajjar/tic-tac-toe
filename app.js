@@ -38,7 +38,37 @@ function gameController() {
     const addSymbol = (row, column) => {
         board.changeCell(row, column, activePlayer.symbol);
 
-        if(actualBoard[0][0] == 1 && actualBoard[0][1] == 1 && actualBoard[0][2] == 1)  {
+        for(let i = 0; i < 3; i++) {
+            if(actualBoard[i][0] == 1 && actualBoard[i][1] == 1 && actualBoard[i][2] == 1) {
+                return true;
+            }
+        };
+
+        for(let i = 0; i < 3; i++) {
+            if(actualBoard[i][0] == 2 && actualBoard[i][1] == 2 && actualBoard[i][2] == 2 ) {
+                return true;
+            }
+        };
+
+        for(let i = 0; i < 3; i++) {
+            if(actualBoard[0][i] == 1 && actualBoard[1][i] == 1 && actualBoard[2][i] == 1 ) {
+                return true;
+                
+            }
+        };
+
+        for(let i = 0; i < 3; i++) {
+            if(actualBoard[0][i] == 2 && actualBoard[1][i] == 2 && actualBoard[2][i] == 2 ) {
+                return true;
+            }
+        };
+        
+        if(actualBoard[1][1] == 1 && actualBoard[2][2] == 1 && actualBoard[0][0] == 1) {
+            return true;
+        }
+        
+
+        if(actualBoard[0][2] == 1 && actualBoard[1][1] == 1 && actualBoard[2][0] == 1) {
             return true;
         }
 
@@ -92,11 +122,40 @@ function screenController() {
             cellDiv.addEventListener("click", (e) => {
                 const row = cellDiv.dataset.row;
                 const column = cellDiv.dataset.column;
-                gameState = game.addSymbol(row, column);
-                displayBoard();
+                let gameState = game.addSymbol(row, column);
+                if(gameState == true) {
+                    displayFinalBoard();
+                } else {
+                    displayBoard();
+                }
             })
         });
     }   
+
+const displayFinalBoard = () => {
+    container.textContent = "";
+
+        board.forEach((row, i) => {
+            row.forEach((element, j) => {
+
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.dataset.column = j;
+                cell.dataset.row = i;
+                if(element == 0) {
+                    cell.textContent = "";
+                } else if ( element == 1){
+                    cell.textContent = "X";
+                } else {
+                    cell.textContent = "O";
+                }
+                container.append(cell);
+
+            });
+        });
+}
+
+
 
     displayBoard();
 
