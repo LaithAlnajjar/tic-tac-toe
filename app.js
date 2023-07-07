@@ -14,7 +14,17 @@ function gameBoard() {
         board[row][column] = symbol;
     };
 
-    return {getBoard, changeCell}
+    const checkCellEmpty = (row, column) => {
+        if(board[row][column] != 0) {
+        return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+    return {getBoard, changeCell, checkCellEmpty}
 
 };
 
@@ -28,7 +38,7 @@ function gameController() {
     const player2 = Player("second", 2);
     const board = gameBoard();
     const actualBoard = board.getBoard();
-
+    let counter = 0;
     let activePlayer = player1;
 
     const switchTurn = () => {
@@ -36,47 +46,60 @@ function gameController() {
     };
 
     const addSymbol = (row, column) => {
+        if(!(board.checkCellEmpty(row, column))) {
+            return;
+        }
+        counter++
         board.changeCell(row, column, activePlayer.symbol);
+        if(checkWin() === "win") {
+            return "win";
+        }
 
+        if(counter == 9) {
+            counter = 0;
+            return "draw";
+        }
+
+        switchTurn();
+    }
+
+    const getActivePlayer = () => activePlayer;
+
+    const checkWin = () => {
         for(let i = 0; i < 3; i++) {
             if(actualBoard[i][0] == 1 && actualBoard[i][1] == 1 && actualBoard[i][2] == 1) {
-                return true;
+                return "win";
             }
         };
 
         for(let i = 0; i < 3; i++) {
             if(actualBoard[i][0] == 2 && actualBoard[i][1] == 2 && actualBoard[i][2] == 2 ) {
-                return true;
+                return "win";
             }
         };
 
         for(let i = 0; i < 3; i++) {
             if(actualBoard[0][i] == 1 && actualBoard[1][i] == 1 && actualBoard[2][i] == 1 ) {
-                return true;
+                return "win";
                 
             }
         };
 
         for(let i = 0; i < 3; i++) {
             if(actualBoard[0][i] == 2 && actualBoard[1][i] == 2 && actualBoard[2][i] == 2 ) {
-                return true;
+                return "win";
             }
         };
         
         if(actualBoard[1][1] == 1 && actualBoard[2][2] == 1 && actualBoard[0][0] == 1) {
-            return true;
+            return "win";
         }
         
 
         if(actualBoard[0][2] == 1 && actualBoard[1][1] == 1 && actualBoard[2][0] == 1) {
-            return true;
+            return "win";
         }
-
-
-        switchTurn();
     }
-
-    const getActivePlayer = () => activePlayer;
 
     return {
         addSymbol,
@@ -86,7 +109,7 @@ function gameController() {
 
 };
 
-function screenController() {
+const screenController = (() =>{
     
     const container = document.querySelector(".board-container");
     const game = gameController();
@@ -123,8 +146,12 @@ function screenController() {
                 const row = cellDiv.dataset.row;
                 const column = cellDiv.dataset.column;
                 let gameState = game.addSymbol(row, column);
-                if(gameState == true) {
+                if(gameState == "win") {
                     displayFinalBoard();
+                    console.log("win");
+                } else if (gameState =="draw"){
+                    displayFinalBoard();
+                    console.log("draw");
                 } else {
                     displayBoard();
                 }
@@ -159,6 +186,4 @@ const displayFinalBoard = () => {
 
     displayBoard();
 
-};
-
-screenController();
+})();
